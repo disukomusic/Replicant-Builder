@@ -41,9 +41,21 @@ header {
 
 /* Style for the part selection dropdowns */
 select {
-  width: 100%;
-  padding: 10px;
+  background-color: #fff;
+  border: 0px solid #ccc;
+  padding: 8px;
   font-size: 16px;
+  color: #333;
+  border-radius: 10px;
+  width: 100%;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0); /* Initial box shadow set to none */
+  transition: box-shadow 0.5s ease-in-out, transform 0.2s ease-in-out; /* Add transitions */
+}
+
+select:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow fades in on hover */
+  transform: scale(1.02); /* Slightly increase size on hover */
 }
 
 /* Style for the buy links */
@@ -72,13 +84,16 @@ a:hover {
 img {
   max-width: 150px; /* Adjust the width as needed */
   display: none;
+  border-radius: 10px;
+  object-fit: cover;
   margin-top: 10px;
   justify-self: end;
   transition: transform 0.3s ease-in-out;
 }
 
 img:hover {
-  transform: scale(2); /* Adjust the scale factor as needed */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Box shadow fades in on hover */
+  transform: scale(1.5); /* Adjust the scale factor as needed */
 }
 
 /* Summary Styles */

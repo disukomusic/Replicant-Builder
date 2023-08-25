@@ -275,3 +275,4 @@ populateSelect(bladeTypeSelect, bladeOptions);
 
 // Initial calculation
 calculateSummary();
+
