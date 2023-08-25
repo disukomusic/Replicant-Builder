@@ -32,7 +32,7 @@ const handleOptions = [
       // ... other liner options
     ],
     scales: [
-      { name: 'Spasmfingers White Slot G10', price: 69, weight: 0.5, buyLink: 'https://example.com/buy-standard-scale' },
+      { name: 'Spasmfingers White Slot G10', price: 69, weight: 0.5, buyLink: 'https://www.etsy.com/listing/1547669071/white-slot-g10-replicant-scales?ga_order=most_relevant&ga_search_type=all&ga_view_type=gallery&ga_search_query=rep+scales&ref=sr_gallery-1-3&cns=1&organic_search_click=1' },
       { name: 'PLACEHOLDER', price: 0, weight: 0, buyLink: '' }
       // ... other scale options
     ]
