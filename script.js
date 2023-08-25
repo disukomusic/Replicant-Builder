@@ -1,4 +1,5 @@
 // script.js
+const baseTypeSelect = document.querySelector('#base-type');
 const handleTypeSelect = document.querySelector('#handle-type');
 const bladeTypeSelect = document.querySelector('#blade-type');
 const bladeOptionsSelect = document.querySelector('#blade-options-type'); 
@@ -9,6 +10,25 @@ const totalPriceSpan = document.querySelector('#total-price');
 const totalWeightSpan = document.querySelector('#total-weight');
 const balanceSpan = document.querySelector('#balance');
 
+const baseOptions = [
+  { 
+    name: 'None', 
+    price: 0, 
+    weight: 0
+  },
+  { 
+    name: 'Stock Rep', 
+    price: 379, 
+    weight: 0,
+	buyLink: 'https://www.bladerunnerssystems.com/products/brs-replicant-alt'
+  },
+  { 
+    name: 'B+ Clone Rep', 
+    price: 65, 
+    weight: 0,
+	buyLink: 'https://kolisong.com/products/baliplus-brs-replicant-rep-balisong-clone'
+  }
+];
 
 const handleOptions = [
   { 
@@ -21,6 +41,8 @@ const handleOptions = [
     price: 0,
     weight: 0,
     spacers: [
+	  { name: 'None', price: 0, weight: 0},
+	  
       { name: 'Zippy Spacers', price: 34, weight: 0.44, 
 		buyLink: 'https://zippybalisong.com/products/brs-replicant-spacers-shatter-proof-polyurethane-adjustable-weight', 
 		imageLink: 'partpics/zippyspacer.png'},
@@ -33,16 +55,20 @@ const handleOptions = [
 
     ],
     liners: [
+      { name: 'None', price: 0, weight: 0},
+	  
       { name: 'FF Ghost Liners', price: 75, weight: 0.5,
-		imageLink: 'https://i.etsystatic.com/24986546/r/il/72dbbb/3267528392/il_794xN.3267528392_6ozm.jpg' },
+		buyLink: 'https://www.etsy.com/listing/1054502414/ff-ghost-liners', imageLink: 'https://i.etsystatic.com/24986546/r/il/72dbbb/3267528392/il_794xN.3267528392_6ozm.jpg' },
 		
       { name: 'PLACEHOLDER', price: 0, weight: 0, buyLink: 'https://example.com/buy-heavy-liner' }
 	  
       // ... other liner options
     ],
     scales: [
+      { name: 'None', price: 0, weight: 0},
+	  
       { name: 'Spasmfingers White Slot G10', price: 69, weight: 0.5, 
-		buyLink: 'https://www.etsy.com/listing/1547669071/white-slot-g10-replicant-scales?ga_order=most_relevant&ga_search_type=all&ga_view_type=gallery&ga_search_query=rep+scales&ref=sr_gallery-1-3&cns=1&organic_search_click=1' , 
+		buyLink: 'https://www.etsy.com/listing/1547669071/white-slot-g10-replicant-scales' , 
 		imageLink: 'https://i.etsystatic.com/37542554/r/il/ad8321/5202150506/il_794xN.5202150506_rz2f.jpg'},
 		
       { name: 'PLACEHOLDER', price: 0, weight: 0, buyLink: '' }
@@ -56,23 +82,22 @@ const bladeOptions = [
   { 
     name: 'Trainer', 
     options: [
+	  { name: 'None', price: 0, weight: 0},
       { name: 'Hourglass Tanto', price: 120, weight: 1.45, buyLink: 'https://hourglassblades.com/ols/products/replicant-tanto-trainer-blade' },
       { name: 'Hourglass Alt', price: 120, weight: 1.45, buyLink: 'https://hourglassblades.com/ols/products/hourglass-replicant-alt-trainer-blade' }	  
-      // ... other trainer blade options
     ]
   },
   { 
     name: 'Live Blade', 
     options: [
+	  { name: 'None', price: 0, weight: 0},
       { name: 'Stock Alt', price: 120, weight: 1.5, buyLink: 'https://example.com/buy-live-blade-1', imageLink: 'https://www.bladerunnerssystems.com/cdn/shop/products/altrep_2048x.jpg'},
       { name: 'Stock Tanto', price: 130, weight: 1.5, buyLink: 'https://example.com/buy-live-blade-2' },
 	  { name: 'Clone Tanto', price: 9, weight: 1.5, buyLink: 'https://www.aliexpress.us/item/3256803508936610.html?gatewayAdapt=glo2usa4itemAdapt' },
 	  { name: 'Clone Alt', price: 9, weight: 1.5, buyLink: 'https://www.aliexpress.us/item/3256803508936610.html?gatewayAdapt=glo2usa4itemAdapt' },
 	  { name: 'MCChickenGod Damascus', price: 425, weight: 1.5, buyLink: 'https://mchickengod.myshopify.com/products/damascus-reblades?variant=41008269230163', imageLink: 'https://mchickengod.myshopify.com/cdn/shop/files/image_53f15a80-8a2c-4edb-b949-a2af340299ca.heic?v=1692406427&width=823'}
-      // ... other live blade options
     ]
   }
-  // ... other options
 ];
 
 // Populate select options
@@ -84,12 +109,16 @@ const populateSelect = (selectElement, options) => {
   }).join('');
 };
 
+populateSelect(baseTypeSelect, baseOptions);
+
+baseTypeSelect.addEventListener('change', calculateSummary);
 handleTypeSelect.addEventListener('change', handleTypeChanged);
 bladeTypeSelect.addEventListener('change', bladeTypeChanged);
 bladeOptionsSelect.addEventListener('change', calculateSummary);
 spacerSelect.addEventListener('change', calculateSummary);
 linersSelect.addEventListener('change', calculateSummary);
 scalesSelect.addEventListener('change', calculateSummary);
+
 
 function updateImage(part, imageElement) {
   if (part && part.imageLink) {
@@ -146,9 +175,11 @@ function calculateSummary() {
   const selectedHandle = handleOptions[handleTypeSelect.selectedIndex];
   const selectedBladeType = bladeOptions[bladeTypeSelect.selectedIndex];
   const selectedBladeOption = selectedBladeType.options[bladeOptionsSelect.selectedIndex];
+  const selectedBase = baseOptions[baseTypeSelect.selectedIndex];
   let selectedSpacer = null;
   let selectedLiner = null;
   let selectedScale = null;
+
 
   if (selectedHandle.spacers) {
     selectedSpacer = selectedHandle.spacers[spacerSelect.selectedIndex];
@@ -156,7 +187,7 @@ function calculateSummary() {
     selectedScale = selectedHandle.scales[scalesSelect.selectedIndex];
   }
 
-  let totalPrice = selectedHandle.price + (selectedBladeOption ? selectedBladeOption.price : 0);
+  let totalPrice = selectedBase.price + selectedHandle.price + (selectedBladeOption ? selectedBladeOption.price : 0);
   let totalWeight = selectedHandle.weight + (selectedBladeOption ? selectedBladeOption.weight : 0);
 
   if (selectedSpacer) {
@@ -193,37 +224,43 @@ function calculateSummary() {
       estimatedBalance = 'Neutral';
     }
   }
-  
-	balanceSpan.textContent = estimatedBalance;
+
+  balanceSpan.textContent = estimatedBalance;
 
   // Populate buy links in the summary
   const buyLinks = [];
 
   if (selectedSpacer && selectedSpacer.buyLink) {
-    buyLinks.push(`<a href="${selectedSpacer.buyLink}" target="_blank">BUY ${selectedSpacer.name} SPACERS</a>`);
+    buyLinks.push(`<a href="${selectedSpacer.buyLink}" target="_blank">Buy ${selectedSpacer.name} Spacers</a>`);
   }
 
   if (selectedLiner && selectedLiner.buyLink) {
-    buyLinks.push(`<a href="${selectedLiner.buyLink}" target="_blank">BUY ${selectedLiner.name} LINERS</a>`);
+    buyLinks.push(`<a href="${selectedLiner.buyLink}" target="_blank">Buy ${selectedLiner.name} Liners</a>`);
   }
 
   if (selectedScale && selectedScale.buyLink) {
-    buyLinks.push(`<a href="${selectedScale.buyLink}" target="_blank">BUY ${selectedScale.name} SCALES</a>`);
+    buyLinks.push(`<a href="${selectedScale.buyLink}" target="_blank">Buy ${selectedScale.name} Scales</a>`);
   }
 
   if (selectedBladeOption && selectedBladeOption.buyLink) {
-    buyLinks.push(`<a href="${selectedBladeOption.buyLink}" target="_blank">BUY ${selectedBladeOption.name} BLADE</a>`);
+    buyLinks.push(`<a href="${selectedBladeOption.buyLink}" target="_blank">Buy ${selectedBladeOption.name} Blade</a>`);
+    updateImage(selectedBladeOption, document.getElementById('blade-image'));
+  }
+
+  if (selectedBase && selectedBase.buyLink) {
+    buyLinks.push(`<a href="${selectedBase.buyLink}" target="_blank">Buy ${selectedBase.name} Replicant</a>`);
+    updateImage(selectedBase, document.getElementById('base-image'));
   }
 
   // Display buy links in the summary
   document.querySelector('#buy-links').innerHTML = buyLinks.join('<br>');
-  
+
   updateImage(selectedHandle, document.getElementById('handle-image'));
   updateImage(selectedSpacer, document.getElementById('spacer-image'));
   updateImage(selectedLiner, document.getElementById('liners-image'));
   updateImage(selectedScale, document.getElementById('scale-image'));
-  updateImage(selectedBlade, document.getElementById('blade-image'));
 }
+
 
 
 
