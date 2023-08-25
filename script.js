@@ -32,12 +32,12 @@ const baseOptions = [
 
 const handleOptions = [
   { 
-    name: 'Channel', 
+    name: 'Custom Channel', 
     price: 0, 
     weight: 0
   },
   {
-    name: 'Sandwich Handles',
+    name: 'Custom Sandwich',
     price: 0,
     weight: 0,
     spacers: [
@@ -57,7 +57,7 @@ const handleOptions = [
     liners: [
       { name: 'None', price: 0, weight: 0},
 	  
-      { name: 'FF Ghost Liners', price: 75, weight: 0.5,
+      { name: 'FF Ghost Liners', price: 75, weight: 1,
 		buyLink: 'https://www.etsy.com/listing/1054502414/ff-ghost-liners', imageLink: 'https://i.etsystatic.com/24986546/r/il/72dbbb/3267528392/il_794xN.3267528392_6ozm.jpg' },
 			  
 	],
@@ -68,7 +68,13 @@ const handleOptions = [
 		buyLink: 'https://www.etsy.com/listing/1547669071/white-slot-g10-replicant-scales' , 
 		imageLink: 'https://i.etsystatic.com/37542554/r/il/ad8321/5202150506/il_794xN.5202150506_rz2f.jpg'},
     ]
-  }
+  },
+  { 
+    name: 'Stock Sandwich', 
+    price: 0, 
+    weight: 3.5
+  },
+  
   // ... other options
 ];
 
@@ -77,6 +83,7 @@ const bladeOptions = [
     name: 'Trainer', 
     options: [
 	  { name: 'None', price: 0, weight: 0},
+	  { name: 'Stock Trainer', price:0, weight:1.4, imageLink: 'https://www.bladerunnerssystems.com/cdn/shop/files/trainerrep_600x.jpg?v=1684518610'},
       { name: 'Hourglass Tanto', price: 120, weight: 1.45, buyLink: 'https://hourglassblades.com/ols/products/replicant-tanto-trainer-blade' },
       { name: 'Hourglass Alt', price: 120, weight: 1.45, buyLink: 'https://hourglassblades.com/ols/products/hourglass-replicant-alt-trainer-blade' }	  
     ]
@@ -85,8 +92,8 @@ const bladeOptions = [
     name: 'Live Blade', 
     options: [
 	  { name: 'None', price: 0, weight: 0},
-      { name: 'Stock Alt', price: 120, weight: 1.5, buyLink: 'https://example.com/buy-live-blade-1', imageLink: 'https://www.bladerunnerssystems.com/cdn/shop/products/altrep_2048x.jpg'},
-      { name: 'Stock Tanto', price: 130, weight: 1.5, buyLink: 'https://example.com/buy-live-blade-2' },
+      { name: 'Stock Alt', price: 0, weight: 1.5, buyLink: 'https://example.com/buy-live-blade-1', imageLink: 'https://www.bladerunnerssystems.com/cdn/shop/products/altrep_2048x.jpg'},
+      { name: 'Stock Tanto', price: 0, weight: 1.5, buyLink: 'https://example.com/buy-live-blade-2' },
 	  { name: 'Clone Tanto', price: 9, weight: 1.5, buyLink: 'https://www.aliexpress.us/item/3256803508936610.html?gatewayAdapt=glo2usa4itemAdapt' },
 	  { name: 'Clone Alt', price: 9, weight: 1.5, buyLink: 'https://www.aliexpress.us/item/3256803508936610.html?gatewayAdapt=glo2usa4itemAdapt' },
 	  { name: 'MCChickenGod Damascus', price: 425, weight: 1.5, buyLink: 'https://mchickengod.myshopify.com/products/damascus-reblades?variant=41008269230163', imageLink: 'https://mchickengod.myshopify.com/cdn/shop/files/image_53f15a80-8a2c-4edb-b949-a2af340299ca.heic?v=1692406427&width=823'}
@@ -174,7 +181,6 @@ function calculateSummary() {
   let selectedLiner = null;
   let selectedScale = null;
 
-
   if (selectedHandle.spacers) {
     selectedSpacer = selectedHandle.spacers[spacerSelect.selectedIndex];
     selectedLiner = selectedHandle.liners[linersSelect.selectedIndex];
@@ -203,21 +209,26 @@ function calculateSummary() {
   totalWeightSpan.textContent = totalWeight !== 0 ? `${totalWeight}oz` : '0oz';
 
   // Calculate the estimated balance
-  const handleWeight = selectedHandle.weight || 0;
+  const handleWeight = selectedSpacer.weight + selectedLiner.weight + selectedScale.weight || 0;
   const bladeWeight = selectedBladeOption ? selectedBladeOption.weight || 0 : 0;
   const totalWeightSum = handleWeight + bladeWeight;
 
   let estimatedBalance = '';
 
   if (totalWeightSum !== 0 && !isNaN(totalWeightSum)) {
-    if (handleWeight > bladeWeight) {
+    const weightDifference = Math.abs(handleWeight - bladeWeight);
+
+    if (weightDifference < 0.075) {
+      estimatedBalance = 'Neutral';
+    } else if (handleWeight > bladeWeight) {
       estimatedBalance = 'Handle Bias';
     } else if (bladeWeight > handleWeight) {
       estimatedBalance = 'Blade Bias';
-    } else {
-      estimatedBalance = 'Neutral';
     }
   }
+
+console.log('handleWeight:', handleWeight);
+console.log('bladeWeight:', bladeWeight);
 
   balanceSpan.textContent = estimatedBalance;
 
