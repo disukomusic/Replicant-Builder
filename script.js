@@ -59,20 +59,14 @@ const handleOptions = [
 	  
       { name: 'FF Ghost Liners', price: 75, weight: 0.5,
 		buyLink: 'https://www.etsy.com/listing/1054502414/ff-ghost-liners', imageLink: 'https://i.etsystatic.com/24986546/r/il/72dbbb/3267528392/il_794xN.3267528392_6ozm.jpg' },
-		
-      { name: 'PLACEHOLDER', price: 0, weight: 0, buyLink: 'https://example.com/buy-heavy-liner' }
-	  
-      // ... other liner options
-    ],
+			  
+	],
     scales: [
       { name: 'None', price: 0, weight: 0},
 	  
       { name: 'Spasmfingers White Slot G10', price: 69, weight: 0.5, 
 		buyLink: 'https://www.etsy.com/listing/1547669071/white-slot-g10-replicant-scales' , 
 		imageLink: 'https://i.etsystatic.com/37542554/r/il/ad8321/5202150506/il_794xN.5202150506_rz2f.jpg'},
-		
-      { name: 'PLACEHOLDER', price: 0, weight: 0, buyLink: '' }
-      // ... other scale options
     ]
   }
   // ... other options
