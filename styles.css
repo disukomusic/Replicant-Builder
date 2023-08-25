@@ -1,75 +1,103 @@
 /* Global Styles */
+@font-face {
+  font-family: 'Keqima';
+  src: url('path/to/keqima.woff2') format('woff2'),
+       url('path/to/keqima.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Keqima', Arial, sans-serif;
   background-color: #f8f8f8;
-  margin: 0;
+  margin: 0px;
   padding: 0;
 }
 
 /* Header Styles */
 header {
   background-color: #333;
+  background-image: url('Background.png');
   color: #fff;
   text-align: center;
   padding: 1rem;
 }
 
-/* Main Content Styles */
+/* Style for the sections containing parts */
 #handle-selection,
 #spacer-selection,
 #liners-selection,
 #scale-selection,
 #blade-selection,
-#blade-options,
-#summary {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 1rem;
-  margin: 1rem auto;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+#blade-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Two columns */
+  gap: 0px; /* Gap between columns and rows */
+  align-items: center; 
+  margin: 0px 0; /* Margin on top and bottom, adjust as needed */
+  padding: 0 100px; 
 }
 
-h2 {
-  font-size: 1.5rem;
-  margin-bottom: 0.5rem;
-}
-
+/* Style for the part selection dropdowns */
 select {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 1rem;
+  padding: 10px;
+  font-size: 16px;
 }
 
-/* Buy Links Styles */
+/* Style for the buy links */
+.buy-links-container {
+  margin-top: 20px;
+}
+
 .buy-link {
-  background-color: #007bff;
-  color: #fff;
-  padding: 0.25rem 0.5rem;
-  border-radius: 5px;
+  display: block;
+  margin-top: 10px;
   text-decoration: none;
-  margin-right: 1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+a {
+  color: white;
+  transition: color 0.3s ease-in-out;
+  text-decoration: underline;  
+}
+
+a:hover {
+  color: pink; /* You can set the desired hover color here */
+}
+
+img {
+  max-width: 150px; /* Adjust the width as needed */
+  display: none;
+  margin-top: 10px;
+  justify-self: end;
+  transition: transform 0.3s ease-in-out;
+}
+
+img:hover {
+  transform: scale(2); /* Adjust the scale factor as needed */
 }
 
 /* Summary Styles */
 #summary {
   text-align: center;
+  background-image: url('Background.png');
+  background-size: cover;
+  color: #fff;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-
 #summary p {
   margin: 0.5rem 0;
 }
 
-#balance-meter {
-  width: 100%;
-}
-
 /* Footer Styles */
 footer {
-  text-align: center;
-  padding: 1rem;
-  background-color: #333;
-  color: #fff;
+  text-align: left;
+  padding: 0;
+  color: grey;
 }

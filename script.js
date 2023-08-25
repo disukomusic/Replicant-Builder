@@ -12,7 +12,7 @@ const balanceSpan = document.querySelector('#balance');
 
 const handleOptions = [
   { 
-    name: 'Channel Handles', 
+    name: 'Channel', 
     price: 0, 
     weight: 0
   },
@@ -21,18 +21,30 @@ const handleOptions = [
     price: 0,
     weight: 0,
     spacers: [
-      { name: 'Zippy Spacers', price: 34, weight: 0.44, buyLink: 'https://zippybalisong.com/products/brs-replicant-spacers-shatter-proof-polyurethane-adjustable-weight' },
-      { name: 'FF Full Length Aluminum', price: 25, weight: 0.5, buyLink: 'https://www.etsy.com/listing/1316018079/aluminum-full-length-replicant-spacers' },
-      { name: 'MCK Glowcarbon Channel', price: 95, weight: 0.5, buyLink: 'https://www.etsy.com/listing/1316018079/aluminum-full-length-replicant-spacers' }
+      { name: 'Zippy Spacers', price: 34, weight: 0.44, 
+		buyLink: 'https://zippybalisong.com/products/brs-replicant-spacers-shatter-proof-polyurethane-adjustable-weight', 
+		imageLink: 'partpics/zippyspacer.png'},
+		
+      { name: 'FF Full Length Aluminum', price: 25, weight: 0.5, 
+		buyLink: 'https://www.etsy.com/listing/1316018079/aluminum-full-length-replicant-spacers' },
+		
+      { name: 'MCK Glowcarbon Channel', price: 95, weight: 0.5, 
+	  buyLink: 'https://www.etsy.com/listing/1316018079/aluminum-full-length-replicant-spacers', imageLink: 'https://mckbalisong.com/cdn/shop/products/20220811_220606.jpg?v=1675039178&width=713'}
 
     ],
     liners: [
-      { name: 'FF Ghost Liners', price: 75, weight: 10, buyLink: 'https://www.etsy.com/listing/1054502414/ff-ghost-liners?show_sold_out_detail=1&ref=nla_listing_details' },
+      { name: 'FF Ghost Liners', price: 75, weight: 0.5,
+		imageLink: 'https://i.etsystatic.com/24986546/r/il/72dbbb/3267528392/il_794xN.3267528392_6ozm.jpg' },
+		
       { name: 'PLACEHOLDER', price: 0, weight: 0, buyLink: 'https://example.com/buy-heavy-liner' }
+	  
       // ... other liner options
     ],
     scales: [
-      { name: 'Spasmfingers White Slot G10', price: 69, weight: 0.5, buyLink: 'https://www.etsy.com/listing/1547669071/white-slot-g10-replicant-scales?ga_order=most_relevant&ga_search_type=all&ga_view_type=gallery&ga_search_query=rep+scales&ref=sr_gallery-1-3&cns=1&organic_search_click=1' },
+      { name: 'Spasmfingers White Slot G10', price: 69, weight: 0.5, 
+		buyLink: 'https://www.etsy.com/listing/1547669071/white-slot-g10-replicant-scales?ga_order=most_relevant&ga_search_type=all&ga_view_type=gallery&ga_search_query=rep+scales&ref=sr_gallery-1-3&cns=1&organic_search_click=1' , 
+		imageLink: 'https://i.etsystatic.com/37542554/r/il/ad8321/5202150506/il_794xN.5202150506_rz2f.jpg'},
+		
       { name: 'PLACEHOLDER', price: 0, weight: 0, buyLink: '' }
       // ... other scale options
     ]
@@ -52,8 +64,11 @@ const bladeOptions = [
   { 
     name: 'Live Blade', 
     options: [
-      { name: 'Stock Alt', price: 120, weight: 1.5, buyLink: 'https://example.com/buy-live-blade-1' },
-      { name: 'Stock Tanto', price: 130, weight: 1.5, buyLink: 'https://example.com/buy-live-blade-2' }
+      { name: 'Stock Alt', price: 120, weight: 1.5, buyLink: 'https://example.com/buy-live-blade-1', imageLink: 'https://www.bladerunnerssystems.com/cdn/shop/products/altrep_2048x.jpg'},
+      { name: 'Stock Tanto', price: 130, weight: 1.5, buyLink: 'https://example.com/buy-live-blade-2' },
+	  { name: 'Clone Tanto', price: 9, weight: 1.5, buyLink: 'https://www.aliexpress.us/item/3256803508936610.html?gatewayAdapt=glo2usa4itemAdapt' },
+	  { name: 'Clone Alt', price: 9, weight: 1.5, buyLink: 'https://www.aliexpress.us/item/3256803508936610.html?gatewayAdapt=glo2usa4itemAdapt' },
+	  { name: 'MCChickenGod Damascus', price: 425, weight: 1.5, buyLink: 'https://mchickengod.myshopify.com/products/damascus-reblades?variant=41008269230163', imageLink: 'https://mchickengod.myshopify.com/cdn/shop/files/image_53f15a80-8a2c-4edb-b949-a2af340299ca.heic?v=1692406427&width=823'}
       // ... other live blade options
     ]
   }
@@ -65,7 +80,7 @@ const populateSelect = (selectElement, options) => {
   selectElement.innerHTML = options.map((option, index) => {
     const priceString = option.price !== undefined && option.price !== 0 ? `$${option.price}` : '';
     const weightString = option.weight !== undefined && option.weight !== 0 ? `${option.weight} oz` : '';
-    return `<option value="${index}">${option.name} ${priceString} ${weightString}</option>`;
+    return `<option value="${index}"> ${option.name} | ${priceString} | ${weightString}</option>`;
   }).join('');
 };
 
@@ -75,6 +90,16 @@ bladeOptionsSelect.addEventListener('change', calculateSummary);
 spacerSelect.addEventListener('change', calculateSummary);
 linersSelect.addEventListener('change', calculateSummary);
 scalesSelect.addEventListener('change', calculateSummary);
+
+function updateImage(part, imageElement) {
+  if (part && part.imageLink) {
+    imageElement.src = part.imageLink;
+    imageElement.style.display = 'block';
+  } else {
+    imageElement.src = '';
+    imageElement.style.display = 'none';
+  }
+}
 
 function handleTypeChanged() {
   const selectedHandle = handleOptions[handleTypeSelect.selectedIndex];
@@ -87,6 +112,7 @@ function handleTypeChanged() {
     linersSelect.innerHTML = ''; // Clear liners select
     scalesSelect.innerHTML = ''; // Clear scales select
   }
+  updateImage(selectedHandle, document.getElementById('handle-image'));
   calculateSummary();
 }
 
@@ -94,6 +120,7 @@ function bladeTypeChanged() {
   const selectedBladeType = bladeOptions[bladeTypeSelect.selectedIndex];
   populateSelect(bladeOptionsSelect, selectedBladeType.options);
   bladeOptionsSelect.style.display = 'block';
+  updateImage(selectedBladeType, document.getElementById('blade-image')); // Update blade image
   calculateSummary();
 }
 
@@ -190,7 +217,14 @@ function calculateSummary() {
 
   // Display buy links in the summary
   document.querySelector('#buy-links').innerHTML = buyLinks.join('<br>');
+  
+  updateImage(selectedHandle, document.getElementById('handle-image'));
+  updateImage(selectedSpacer, document.getElementById('spacer-image'));
+  updateImage(selectedLiner, document.getElementById('liners-image'));
+  updateImage(selectedScale, document.getElementById('scale-image'));
+  updateImage(selectedBlade, document.getElementById('blade-image'));
 }
+
 
 
 // Populate the handle type and blade type dropdowns
