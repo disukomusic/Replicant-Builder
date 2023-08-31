@@ -77,6 +77,16 @@ a {
   text-decoration: underline;  
 }
 
+.a-alt{
+  color: pink;
+  transition: color 0.3s ease-in-out;
+  text-decoration: underline;
+}
+
+.a-alt:hover{
+  color: blueviolet;
+}
+
 a:hover {
   color: pink; /* You can set the desired hover color here */
 }
